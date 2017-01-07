@@ -1,6 +1,6 @@
 {
   "name": "ags-walk",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Walks an ArcGIS Server Rest API and returns all services",
   "main": "index.js",
   "scripts": {
@@ -11,7 +11,7 @@
     "arcgis",
     "gis"
   ],
-  "repository": "nickpeihl/aws-walk",
+  "repository": "nickpeihl/ags-walk",
   "author": "Nick Peihl <nickpeihl@gmail.com>",
   "license": "Apache-2.0",
   "dependencies": {
