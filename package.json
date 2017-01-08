@@ -1,6 +1,6 @@
 {
   "name": "ags-walk",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Walks an ArcGIS Server Rest API and returns all services",
   "main": "index.js",
   "scripts": {
