@@ -30,11 +30,15 @@ module.exports = function (url, opts, cb) {
   try {
     request(url + '?f=json', {
       json: true
-    }, function (err, data) {
+    }, function (err, data, res) {
+      if (res.statusCode === 404) {
+        err = res.rawRequest.statusMessage
+      }
       if (err) return cb(err)
       if (!_isAgs(data)) {
         return cb('Is not a valid ArcGIS Server URL')
       }
+
       services.push(data.services)
       const harvester = _harvestFolders(url, data.folders)
       parallel(harvester, limit, function (err, res) {

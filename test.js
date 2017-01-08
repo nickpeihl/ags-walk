@@ -45,7 +45,7 @@ test('valid ags', function (t) {
       res.status = 200
       res.end(JSON.stringify(root))
     } else if (req.url === '/arcgis/rest/services/Basemaps?f=json') {
-      res.status = 200
+      res.statusCode = 200
       res.end(JSON.stringify(basemaps))
     } else {
       res.status = 404
@@ -67,7 +67,7 @@ test('ags with no folders', function (t) {
   t.plan(3)
   const server = http.createServer(function (req, res) {
     t.equal(req.url, '/arcgis/rest/services?f=json', 'should return correct url')
-    res.status = 200
+    res.statusCode = 200
     res.end(JSON.stringify(rootNoServices))
   })
   server.listen(0, function () {
@@ -84,7 +84,7 @@ test('invalid ags', function (t) {
   t.plan(3)
   const server = http.createServer(function(req, res) {
     t.equal(req.url, '/arcgis/bad/services?f=json', 'should return url with query string')
-    res.status = 200
+    res.statusCode = 200
     res.end(JSON.stringify({
       'pretty': 'bad'
     }))
@@ -94,6 +94,24 @@ test('invalid ags', function (t) {
     agsWalk('http://localhost:' + port + '/arcgis/bad/services', function (err, res) {
       t.ok(err, 'should return error')
       t.equal(err, 'Is not a valid ArcGIS Server URL', 'correct error message')
+      server.close()
+    })
+  })
+})
+
+test('404', function (t) {
+  t.plan(3)
+  const server = http.createServer(function (req, res) {
+    t.equal(req.url, '/arcgis/404/services?f=json')
+    res.statusCode = 404
+    res.statusMessage = 'Not found'
+    res.end('<body><h1>404</h1</body>')
+  })
+  server.listen(0, function () {
+    const port = server.address().port
+    agsWalk('http://localhost:' + port + '/arcgis/404/services', function (err, res) {
+      t.ok(err)
+      t.equal(err, 'Not found')
       server.close()
     })
   })
