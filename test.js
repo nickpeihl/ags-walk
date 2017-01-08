@@ -3,10 +3,18 @@ const request = require('xhr-request')
 const agsWalk = require('./')
 const http = require('http')
 
+const rootNoServices = {
+  'currentVersion': 10.22,
+  'services': [
+    'Thing1',
+    'Thing2'
+  ]
+}
+
 const root = {
   'currentVersion': 10.22,
   'folders': [
-    'Basemaps',
+    'Basemaps'
   ],
   'services': [
     'Thing1',
@@ -50,6 +58,23 @@ test('valid ags', function (t) {
     agsWalk('http://localhost:' + port + '/arcgis/rest/services', function (err, res) {
       t.error(err, 'should not error')
       t.deepEqual(res, allServices, 'should return array of services')
+      server.close()
+    })
+  })
+})
+
+test('ags with no folders', function (t) {
+  t.plan(3)
+  const server = http.createServer(function (req, res) {
+    t.equal(req.url, '/arcgis/rest/services?f=json', 'should return correct url')
+    res.status = 200
+    res.end(JSON.stringify(rootNoServices))
+  })
+  server.listen(0, function () {
+    const port = server.address().port
+    agsWalk('http://localhost:' + port + '/arcgis/rest/services', function (err, res) {
+      t.error(err)
+      t.equal(res.length, 2)
       server.close()
     })
   })

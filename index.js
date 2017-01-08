@@ -3,23 +3,23 @@ const parallel = require('run-parallel-limit')
 const flatten = require('flatten')
 
 /**
-* A module to walk the folders of an ArcGIS Server Rest API
-* and return all the services
-* @name ags-walk
-* @param {string} url the base url of an ArcGIS Server Rest API
-* @param {Object} [opts] options for the module
-* @param {number} [opts.limit=5] the maximum number of folders to
-* index at the same time
-* @param {Function} cb the callback function to run after
-* results have been returned
-* @returns {string[]}
-* @example
-* // returns [{ name: 'Elevation/earthquakedemoelevation, type: 'MapServer'}...]
-* agsWalk('http://sampleserver6.arcgisonline.com/arcgis/rest/services', function(err, services) {
-*  if (err) throw err
-*  return services
-* }
-*/
+ * A module to walk the folders of an ArcGIS Server Rest API
+ * and return all the services
+ * @name ags-walk
+ * @param {string} url the base url of an ArcGIS Server Rest API
+ * @param {Object} [opts] options for the module
+ * @param {number} [opts.limit=5] the maximum number of folders to
+ * index at the same time
+ * @param {Function} cb the callback function to run after
+ * results have been returned
+ * @returns {string[]}
+ * @example
+ * // returns [{ name: 'Elevation/earthquakedemoelevation, type: 'MapServer'}...]
+ * agsWalk('http://sampleserver6.arcgisonline.com/arcgis/rest/services', function(err, services) {
+ *  if (err) throw err
+ *  return services
+ * }
+ */
 module.exports = function (url, opts, cb) {
   if (typeof opts === 'function') {
     cb = opts
@@ -67,17 +67,21 @@ module.exports = function (url, opts, cb) {
    * @returns {Function[]}
    */
   function _harvestFolders (baseUrl, folders) {
-    const tasks = folders.map(function (folder) {
-      return function (cb) {
-        const opts = {
-          json: true
+    if (folders) {
+      const tasks = folders.map(function (folder) {
+        return function (cb) {
+          const opts = {
+            json: true
+          }
+          request(baseUrl + '/' + folder + '?f=json', opts, function (err, data) {
+            if (err) return cb(err)
+            cb(null, data)
+          })
         }
-        request(baseUrl + '/' + folder + '?f=json', opts, function (err, data) {
-          if (err) return cb(err)
-          cb(null, data)
-        })
-      }
-    })
-    return tasks
+      })
+      return tasks
+    } else {
+      return []
+    }
   }
 }
