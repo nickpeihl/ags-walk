@@ -16,8 +16,8 @@
   "license": "Apache-2.0",
   "dependencies": {
     "flatten": "^1.0.2",
-    "run-parallel-limit": "^1.0.3",
-    "xhr-request": "^1.0.1"
+    "request": "^2.79.0",
+    "run-parallel-limit": "^1.0.3"
   },
   "devDependencies": {
     "tape": "^4.6.3"

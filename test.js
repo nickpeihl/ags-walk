@@ -1,5 +1,4 @@
 const test = require('tape')
-const request = require('xhr-request')
 const agsWalk = require('./')
 const http = require('http')
 

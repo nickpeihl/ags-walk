@@ -1,4 +1,4 @@
-const request = require('xhr-request')
+const request = require('request')
 const parallel = require('run-parallel-limit')
 const flatten = require('flatten')
 
@@ -28,13 +28,14 @@ module.exports = function (url, opts, cb) {
   const limit = opts.limit || 5
   const services = this.services = []
   try {
-    request(url + '?f=json', {
+    request.get({
+      url: url + '?f=json',
       json: true
-    }, function (err, data, res) {
-      if (res.statusCode === 404) {
-        err = res.rawRequest.statusMessage
-      }
+    }, function (err, res, data) {
       if (err) return cb(err)
+      if (res.statusCode === 404) {
+        return cb(res.statusMessage)
+      }
       if (!_isAgs(data)) {
         return cb('Is not a valid ArcGIS Server URL')
       }
@@ -75,9 +76,10 @@ module.exports = function (url, opts, cb) {
       const tasks = folders.map(function (folder) {
         return function (cb) {
           const opts = {
+            url: baseUrl + '/' + folder + '?f=json',
             json: true
           }
-          request(baseUrl + '/' + folder + '?f=json', opts, function (err, data) {
+          request.get(opts, function (err, res, data) {
             if (err) return cb(err)
             cb(null, data)
           })
