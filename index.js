@@ -12,7 +12,7 @@ const flatten = require('flatten')
  * index at the same time
  * @param {Function} cb the callback function to run after
  * results have been returned
- * @returns {string[]}
+ * @returns {Object[]}
  * @example
  * // returns [{ name: 'Elevation/earthquakedemoelevation, type: 'MapServer'}...]
  * agsWalk('http://sampleserver6.arcgisonline.com/arcgis/rest/services', function(err, services) {
@@ -65,7 +65,7 @@ module.exports = function (url, opts, cb) {
   }
 
   /**
-   * create array of xhr get functions for each ArcGIS Server folder
+   * create array of request functions for each ArcGIS Server folder
    * @private
    * @param {string} baseUrl ArcGIS Server Rest API url
    * @param {string[]} folders an array of ArcGIS Server folders
