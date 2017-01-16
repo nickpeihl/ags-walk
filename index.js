@@ -34,7 +34,7 @@ module.exports = function (url, opts, cb) {
     }, function (err, res, data) {
       if (err) return cb(err)
       if (res.statusCode === 404) {
-        return cb(res.statusMessage)
+        return cb(res.statusMessage || 'Not Found')
       }
       if (!_isAgs(data)) {
         return cb('Is not a valid ArcGIS Server URL')
