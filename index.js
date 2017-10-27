@@ -1,6 +1,6 @@
-const request = require('request')
-const parallel = require('run-parallel-limit')
-const flatten = require('flatten')
+var request = require('request')
+var parallel = require('run-parallel-limit')
+var flatten = require('flatten')
 
 /**
  * A module to walk the folders of an ArcGIS Server Rest API
@@ -25,31 +25,36 @@ module.exports = function (url, opts, cb) {
     cb = opts
     opts = {}
   }
-  const limit = opts.limit || 5
-  const services = this.services = []
+  var limit = opts.limit || 5
+  var services = (this.services = [])
   try {
-    request.get({
-      url: url + '?f=json',
-      json: true
-    }, function (err, res, data) {
-      if (err) return cb(err)
-      if (res.statusCode === 404) {
-        return cb(res.statusMessage)
-      }
-      if (!_isAgs(data)) {
-        return cb('Is not a valid ArcGIS Server URL')
-      }
+    request.get(
+      {
+        url: url + '?f=json',
+        json: true
+      },
+      function (err, res, data) {
+        if (err) return cb(err)
+        if (res.statusCode === 404) {
+          return cb(res.statusMessage)
+        }
+        if (!_isAgs(data)) {
+          return cb('Is not a valid ArcGIS Server URL')
+        }
 
-      services.push(data.services)
-      const harvester = _harvestFolders(url, data.folders)
-      parallel(harvester, limit, function (err, res) {
-        if (err) throw err
-        services.push(res.map(function (folder) {
-          return folder.services
-        }))
-        cb(null, flatten(services))
-      })
-    })
+        services.push(data.services)
+        var harvester = _harvestFolders(url, data.folders)
+        parallel(harvester, limit, function (err, res) {
+          if (err) throw err
+          services.push(
+            res.map(function (folder) {
+              return folder.services
+            })
+          )
+          cb(null, flatten(services))
+        })
+      }
+    )
   } catch (err) {
     return cb(err)
   }
@@ -73,9 +78,9 @@ module.exports = function (url, opts, cb) {
    */
   function _harvestFolders (baseUrl, folders) {
     if (folders) {
-      const tasks = folders.map(function (folder) {
+      var tasks = folders.map(function (folder) {
         return function (cb) {
-          const opts = {
+          var opts = {
             url: baseUrl + '/' + folder + '?f=json',
             json: true
           }
