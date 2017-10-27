@@ -9,7 +9,7 @@
   "scripts": {
     "test": "tape test.js",
     "build-docs": "documentation readme index.js --section=api",
-    "build-min": "browserify --standalone agsWalk | uglifyjs -cm > agsWalk.min.js",
+    "build-min": "browserify index.js --standalone agsWalk | uglifyjs -cm > agsWalk.min.js",
     "preversion": "npm test",
     "version": "npm run build-docs && npm run build-min",
     "postversion": "git push && git push --tags"
