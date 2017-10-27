@@ -2,10 +2,12 @@ var request = require('request')
 var parallel = require('run-parallel-limit')
 var flatten = require('flatten')
 
+module.exports = agsWalk
+
 /**
- * A module to walk the folders of an ArcGIS Server Rest API
- * and return all the services
- * @name ags-walk
+ * Walk the folders of an ArcGIS Server Rest API
+ * and return all the services as an array
+ * @name agsWalk
  * @param {string} url the base url of an ArcGIS Server Rest API
  * @param {Object} [opts] options for the module
  * @param {number} [opts.limit=5] the maximum number of folders to
@@ -20,7 +22,7 @@ var flatten = require('flatten')
  *  return services
  * }
  */
-module.exports = function (url, opts, cb) {
+function agsWalk (url, opts, cb) {
   if (typeof opts === 'function') {
     cb = opts
     opts = {}

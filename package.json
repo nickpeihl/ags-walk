@@ -7,7 +7,12 @@
     "request": "xhr"
   },
   "scripts": {
-    "test": "tape test.js"
+    "test": "tape test.js",
+    "build-docs": "documentation readme index.js --section=api",
+    "build-min": "browserify --standalone agsWalk | uglifyjs -cm > agsWalk.min.js",
+    "preversion": "npm test",
+    "version": "npm run build-docs && npm run build-min",
+    "postversion": "git push && git push --tags"
   },
   "keywords": [
     "arcgis-server",
@@ -24,6 +29,9 @@
     "xhr": "^2.4.0"
   },
   "devDependencies": {
-    "tape": "^4.6.3"
+    "browserify": "^14.5.0",
+    "documentation": "^5.3.3",
+    "tape": "^4.6.3",
+    "uglify-js": "^3.1.5"
   }
 }

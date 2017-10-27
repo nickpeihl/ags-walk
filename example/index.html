@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Example of using AGSWalk in client JavaScript to list services from an ArcGIS Server URL">
+        <title>AGSWalk - List ArcGIS Server Rest Services</title>
+        <link rel="stylesheet" href="https://unpkg.com/tachyons@4.9.0/css/tachyons.min.css"/>
+    </head>
+    <body>
+        <main class="pa4 black-80">
+            <h1 class="f3">List ArcGIS Server Rest Services</h1>
+            <div id="search">
+                <form action="javascript:handleSearch()">
+                    <div class="measure">
+                        <label for="serviceUrl" class="f6 b db mb2">Enter an ArcGIS Server URL</label>
+                        <input id="serviceUrl" class="input-reset ba b--black-20 pa2 mb2 db w-100" required="true" type="url" value="http://sampleserver6.arcgisonline.com/arcgis/rest/services">
+                        <input class="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6" type="submit" value="Search">
+                    </div>
+                </form>
+            </div>
+            <div id="results" class="dn pt4">
+                <h2 class="f4 bold">Services</h2>
+                <p id="messages"></p>
+                <ul id="serviceList" class="list pl0 ml0 b--light-silver"></ul>
+            </div>
+        </main>
+
+        <script src='../agsWalk.js'></script>
+        <script>
+         var url = ''
+         var resultsClasses = document.getElementById('results').classList
+         var serviceList = document.getElementById('serviceList')
+         var messages = document.getElementById('messages')
+
+         function handleSearch (e) {
+             serviceList.innerHTML = ''
+             messages.innerText = 'Loading...'
+             resultsClasses.remove('dn')
+             url = document.getElementById('serviceUrl').value
+             agsWalk(url, function (err, services) {
+                 if (err) handleError(err)
+                 else handleServices(services)
+             })
+         }
+
+         function handleError (err) {
+             messages.innerText = 'Error: ' + err
+         }
+         function handleServices (services) {
+             messages.innerText = ''
+             services.forEach(function (item) {
+                 var li = document.createElement('li')
+                 li.setAttribute('class', 'ph2 pv2')
+                 li.innerHTML = '<a target="_blank" rel="noopener" href="' + url + '/' + item.name + '/' + item.type + '">' + item.name + ' - '  + item.type + '</a>'
+                 serviceList.appendChild(li)
+             })
+
+         }
+        </script>
+    </body>
+</html>
