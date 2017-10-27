@@ -98,19 +98,36 @@ test('invalid ags', function (t) {
   })
 })
 
-test('404', function (t) {
+test('404 with status message', function (t) {
   t.plan(3)
   const server = http.createServer(function (req, res) {
     t.equal(req.url, '/arcgis/404/services?f=json')
     res.statusCode = 404
-    res.statusMessage = 'Not found'
+    res.statusMessage = 'No comprende'
     res.end('<body><h1>404</h1</body>')
   })
   server.listen(0, function () {
     const port = server.address().port
     agsWalk('http://localhost:' + port + '/arcgis/404/services', function (err, res) {
       t.ok(err)
-      t.equal(err, 'Not found')
+      t.equal(err, 'No comprende')
+      server.close()
+    })
+  })
+})
+
+test('404 default status message', function (t) {
+  t.plan(3)
+  const server = http.createServer(function (req, res) {
+    t.equal(req.url, '/arcgis/404/services?f=json')
+    res.statusCode = 404
+    res.end('<body><h1>404</h1</body>')
+  })
+  server.listen(0, function () {
+    const port = server.address().port
+    agsWalk('http://localhost:' + port + '/arcgis/404/services', function (err, res) {
+      t.ok(err)
+      t.equal(err, 'Not Found')
       server.close()
     })
   })

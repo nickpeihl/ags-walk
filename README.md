@@ -27,7 +27,7 @@ and `agsWalk()` is added as a global function.
 ### agsWalk
 
 Walk the folders of an ArcGIS Server Rest API
-and return all the services
+and return all the services as an array
 
 **Parameters**
 
@@ -48,7 +48,7 @@ agsWalk('http://sampleserver6.arcgisonline.com/arcgis/rest/services', function(e
 }
 ```
 
-
+Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)>** 
 
 ## license
 
