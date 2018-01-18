@@ -3,6 +3,7 @@
   "version": "2.0.5",
   "description": "Walks an ArcGIS Server Rest API and returns all services",
   "main": "index.js",
+  "bin": "./cli.js",
   "browser": {
     "request": "xhr"
   },
@@ -23,7 +24,9 @@
   "author": "Nick Peihl <nickpeihl@gmail.com>",
   "license": "Apache-2.0",
   "dependencies": {
+    "chalk": "^2.3.0",
     "flatten": "^1.0.2",
+    "minimist": "^1.2.0",
     "request": "^2.79.0",
     "run-parallel-limit": "^1.0.3",
     "xhr": "^2.4.0"

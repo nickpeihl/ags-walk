@@ -9,12 +9,27 @@ array
 
 Links to each dataset URL can be made by concatenating the root GeoServices URL with the dataset item and dataset type. For example, if the root URL is `http://sampleserver6.arcgisonline.com/arcgis/rest/services` and one of the datasets in the array is `{ name: '911CallsHotspot', type: 'MapServer' }` the full URL to the service is `http://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/MapServer`.
 
+## command line
+
+With Node v8.2.0+ it is not necessary to install ags-walk. You can run:
+
+`npx ags-walk <server-url> [options]`
+
+See example and available options by entering
+
+`npx ags-walk -h`
+
 ## install
 
-For Node.js:
+To use as a dependency in a Node.js library you can install ags-walk by running:
+
 `npm i ags-walk`
-and
+
+then include 
+
 `var agsWalk = require('ags-walk')`
+
+in your script file.
 
 For the browser include the tag:
 `<script src="https://unpkg.com/ags-walk/ags-walk.min.js"></script>`
