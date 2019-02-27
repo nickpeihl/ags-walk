@@ -33,7 +33,7 @@
   },
   "devDependencies": {
     "browserify": "^15.0.0",
-    "documentation": "^5.3.3",
+    "documentation": "^9.3.0",
     "tape": "^4.6.3",
     "uglify-js": "^3.1.5"
   }
