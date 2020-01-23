@@ -32,7 +32,7 @@
     "xhr": "^2.4.0"
   },
   "devDependencies": {
-    "browserify": "^15.0.0",
+    "browserify": "^16.0.0",
     "documentation": "^5.3.3",
     "tape": "^4.6.3",
     "uglify-js": "^3.1.5"
